@@ -25,7 +25,7 @@ module.exports = {
       data?.path ? data?.path + "/" : ""
     }{{properCase name}}/`;
 
-    const reducerPath = defaultPath + "/store/";
+    const reducerPath = defaultPath + "store/";
 
     const defaultActions = [
       {
@@ -39,46 +39,46 @@ module.exports = {
     const reducerActions = [
       {
         type: "add",
-        path: reducerPath + "actions.tsx",
-        templateFile: "./container/actions.tsx.hbs",
+        path: reducerPath + "actions.ts",
+        templateFile: "./container/actions.ts.hbs",
         abortOnFail: true,
       },
       {
         type: "add",
-        path: reducerPath + "constants.tsx",
-        templateFile: "./container/constants.tsx.hbs",
+        path: reducerPath + "constants.ts",
+        templateFile: "./container/constants.ts.hbs",
         abortOnFail: true,
       },
       {
         type: "add",
-        path: reducerPath + "reducer.tsx",
-        templateFile: "./container/reducer.tsx.hbs",
+        path: reducerPath + "reducer.ts",
+        templateFile: "./container/reducer.ts.hbs",
         abortOnFail: true,
       },
       {
         type: "add",
-        path: reducerPath + "types.tsx",
-        templateFile: "./container/types.tsx.hbs",
+        path: reducerPath + "types.ts",
+        templateFile: "./container/types.ts.hbs",
         abortOnFail: true,
       },
       {
         type: "modify",
         path: "../../src/shared/redux/root-reducer.ts",
-        templateFile: "../container/modify.import-reducer.ts.hbs",
-        pattern: new RegExp(/.*\/\/.*\[IMPORT NEW REDUCERS\].+\n/),
+        templateFile: "./container/modify.import-reducer.ts.hbs",
+        pattern: new RegExp(/.*\[IMPORT NEW REDUCERS\].*/),
         abortOnFail: true,
       },
       {
         type: "modify",
         path: "../../src/shared/redux/root-reducer.ts",
         templateFile: "./container/modify.combine-reducer.ts.hbs",
-        pattern: new RegExp(/.*\/\/.*\[COMBINE NEW REDUCERS\].+\n/),
+        pattern: new RegExp(/.*\[COMBINE NEW REDUCERS\].*/),
         abortOnFail: true,
       },
     ];
 
-    if (data?.reducer) defaultActions.push([...reducerActions]);
+    const actions = !data?.reducer ? defaultActions : [...defaultActions, ...reducerActions];
 
-    return defaultActions;
+    return actions;
   },
 };
