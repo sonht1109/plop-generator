@@ -1,30 +1,36 @@
 module.exports = {
-  description: "Add an unconnected component",
+  description: "Create a component",
   prompts: [
     {
       type: "input",
       name: "name",
-      message: "What should it be called?",
-      default: "Button",
+      message: "Component displayname:",
+      default: "NewComponent",
     },
     {
       type: "input",
       name: "path",
+      message: "Component path from src/components/:",
       default: "",
-      message: "What is path of component ?",
     },
   ],
   actions: (data) => {
-    const actions = [
+    const path = `../../src/components/${
+      data?.path ? data?.path + "/" : ""
+    }{{properCase name}}/`;
+    return [
       {
         type: "add",
-        path: `../../src/components/${
-          data.path ? data.path + "/" : ""
-        }{{properCase name}}/index.tsx`,
-        templateFile: "./components/index.tsx.hbs",
+        path: path + "index.tsx",
+        templateFile: "./component/index.tsx.hbs",
+        abortOnFail: true,
+      },
+      {
+        type: "add",
+        path: path + `{{properCase name}}.tsx`,
+        templateFile: "./component/component.tsx.hbs",
         abortOnFail: true,
       },
     ];
-    return actions;
   },
 };
